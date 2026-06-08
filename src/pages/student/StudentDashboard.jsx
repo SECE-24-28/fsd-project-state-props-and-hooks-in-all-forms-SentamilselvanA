@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FiFileText, FiMessageSquare, FiBell, FiUser, FiClock } from 'react-icons/fi';
 import { getMyApplications, getMyEnquiries, getNotifications } from '../../services/apiServices';
-import { dummyApplications } from '../../data/dummyData';
-
-const myDummyApps = dummyApplications.slice(0, 3);
 
 export default function StudentDashboard() {
   const { user } = useSelector((s) => s.auth);
@@ -14,12 +11,16 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     Promise.all([getMyApplications(), getMyEnquiries(), getNotifications()]).then(([apps, enqs, notifs]) => {
-      const appList = apps.data.applications?.length ? apps.data.applications : myDummyApps;
-      setStats({ applications: appList.length, enquiries: enqs.data.enquiries?.length || 2, notifications: notifs.data.notifications?.filter(n => !n.isRead).length || 3 });
+      const appList = apps.data.applications || [];
+      setStats({
+        applications: appList.length,
+        enquiries: enqs.data.enquiries?.length || 0,
+        notifications: notifs.data.notifications?.filter(n => !n.isRead).length || 0,
+      });
       setRecentApps(appList.slice(0, 3));
     }).catch(() => {
-      setStats({ applications: myDummyApps.length, enquiries: 2, notifications: 3 });
-      setRecentApps(myDummyApps);
+      setStats({ applications: 0, enquiries: 0, notifications: 0 });
+      setRecentApps([]);
     });
   }, []);
 
@@ -76,7 +77,7 @@ export default function StudentDashboard() {
         {recentApps.length === 0 ? (
           <div className="p-8 text-center text-gray-500 dark:text-gray-400">
             <FiFileText size={32} className="mx-auto mb-3 opacity-30" />
-            <p>No applications yet.</p>
+            <p>No applications submitted yet.</p>
             <Link to="/apply" className="btn-primary text-sm mt-4 inline-block">Apply Now</Link>
           </div>
         ) : (

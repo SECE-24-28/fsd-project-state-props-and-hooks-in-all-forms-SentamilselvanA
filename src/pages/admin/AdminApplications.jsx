@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { FiSearch, FiEye, FiCheck, FiX } from 'react-icons/fi';
 import { getAllApplications, updateApplicationStatus, deleteApplication } from '../../services/apiServices';
-import { dummyApplications } from '../../data/dummyData';
 import { TableSkeleton } from '../../components/common/LoadingSpinner';
 
 const statusColors = {
@@ -27,9 +26,8 @@ export default function AdminApplications() {
     setLoading(true);
     try {
       const { data } = await getAllApplications({ page, limit: 10, status: statusFilter, search });
-      const result = data.applications?.length ? data.applications : dummyApplications;
-      setApplications(result);
-      setTotal(data.total || result.length);
+      setApplications(data.applications || []);
+      setTotal(data.total || 0);
     } catch {}
     setLoading(false);
   };

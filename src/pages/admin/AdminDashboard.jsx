@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FiUsers, FiBook, FiFileText, FiMessageSquare, FiUserCheck, FiAlertCircle } from 'react-icons/fi';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { getDashboardStats, getAllApplications, getAllEnquiries } from '../../services/apiServices';
-import { dummyStats, dummyApplications } from '../../data/dummyData';
 
 const COLORS = ['#d946ef', '#f97316', '#06b6d4', '#10b981'];
 
@@ -15,11 +14,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     Promise.all([getDashboardStats(), getAllApplications({ limit: 5 }), getAllEnquiries({ limit: 5 })])
       .then(([s, apps]) => {
-        setStats(s.data.stats || dummyStats);
-        setRecentApps(apps.data.applications?.length ? apps.data.applications : dummyApplications.slice(0, 5));
+        setStats(s.data.stats || {});
+        setRecentApps(apps.data.applications || []);
       }).catch(() => {
-        setStats(dummyStats);
-        setRecentApps(dummyApplications.slice(0, 5));
+        setStats({});
+        setRecentApps([]);
       }).finally(() => setLoading(false));
   }, []);
 

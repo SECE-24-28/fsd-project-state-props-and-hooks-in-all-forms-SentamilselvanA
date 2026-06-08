@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FiSearch, FiTrash2, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { getAllUsers, updateUser, deleteUser } from '../../services/apiServices';
-import { dummyStudents } from '../../data/dummyData';
 import { TableSkeleton } from '../../components/common/LoadingSpinner';
 
 export default function AdminStudents() {
@@ -18,9 +17,8 @@ export default function AdminStudents() {
     setLoading(true);
     try {
       const { data } = await getAllUsers({ page, limit: 10, role: 'student', search });
-      const result = data.users?.length ? data.users : dummyStudents;
-      setUsers(result);
-      setTotal(data.total || result.length);
+      setUsers(data.users || []);
+      setTotal(data.total || 0);
     } catch {}
     setLoading(false);
   };

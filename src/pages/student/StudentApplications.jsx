@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiFileText, FiClock, FiArrowRight } from 'react-icons/fi';
 import { getMyApplications } from '../../services/apiServices';
-import { dummyApplications } from '../../data/dummyData';
 import { TableSkeleton } from '../../components/common/LoadingSpinner';
 
 const statusColors = {
@@ -17,7 +16,10 @@ export default function StudentApplications() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getMyApplications().then(({ data }) => setApplications(data.applications?.length ? data.applications : dummyApplications)).catch(() => setApplications(dummyApplications)).finally(() => setLoading(false));
+    getMyApplications()
+      .then(({ data }) => setApplications(data.applications || []))
+      .catch(() => setApplications([]))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -34,7 +36,7 @@ export default function StudentApplications() {
           <div className="p-12 text-center">
             <FiFileText size={40} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">No Applications Yet</h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-5">Submit an application to start your dance journey.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-5">You haven't submitted any applications yet.</p>
             <Link to="/apply" className="btn-primary text-sm">Apply Now</Link>
           </div>
         ) : (

@@ -18,27 +18,3 @@ export const dummyClasses = [
   { _id: 'c9', title: 'Bollywood Fitness Dance', category: 'Western', description: 'A high-energy workout inspired by Bollywood choreography — fun, effective and great for all fitness levels.', ageGroup: '15+ years', duration: '60 minutes', fees: 1800, image: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=400&h=260&fit=crop', instructor: { name: 'Rohit Sharma' }, schedule: [{ day: 'Tuesday', startTime: '07:00', endTime: '08:00' }, { day: 'Thursday', startTime: '07:00', endTime: '08:00' }] },
 ];
 
-export const dummyApplications = [
-  { _id: 'a1', fullName: 'Ananya Krishnan', email: 'ananya@example.com', mobile: '+91 91234 56780', selectedCourse: 'Bharatanatyam', gender: 'Female', status: 'Pending', createdAt: new Date(Date.now() - 1 * 86400000).toISOString(), dateOfBirth: '2010-03-15', address: '12, Anna Nagar, Chennai - 600040', previousExperience: 'None', adminNote: '' },
-  { _id: 'a2', fullName: 'Rohan Verma', email: 'rohan@example.com', mobile: '+91 90987 65432', selectedCourse: 'Hip Hop', gender: 'Male', status: 'Approved', createdAt: new Date(Date.now() - 3 * 86400000).toISOString(), dateOfBirth: '2005-07-20', address: '45, T Nagar, Chennai - 600017', previousExperience: '2 years of street dance', adminNote: 'Welcome aboard!' },
-  { _id: 'a3', fullName: 'Divya Nair', email: 'divya@example.com', mobile: '+91 98456 12378', selectedCourse: 'Contemporary', gender: 'Female', status: 'Under Review', createdAt: new Date(Date.now() - 5 * 86400000).toISOString(), dateOfBirth: '2008-11-30', address: '78, Adyar, Chennai - 600020', previousExperience: '1 year classical', adminNote: '' },
-  { _id: 'a4', fullName: 'Aditya Kumar', email: 'aditya@example.com', mobile: '+91 76543 21098', selectedCourse: 'Western Dance', gender: 'Male', status: 'Rejected', createdAt: new Date(Date.now() - 7 * 86400000).toISOString(), dateOfBirth: '2003-05-05', address: '33, Velachery, Chennai - 600042', previousExperience: 'None', adminNote: 'Batch full for this season.' },
-  { _id: 'a5', fullName: 'Meghna Iyer', email: 'meghna@example.com', mobile: '+91 88765 43210', selectedCourse: 'Kids Dance', gender: 'Female', status: 'Approved', createdAt: new Date(Date.now() - 10 * 86400000).toISOString(), dateOfBirth: '2015-02-14', address: '9, Mylapore, Chennai - 600004', previousExperience: 'None', adminNote: 'Enrolled in Saturday batch.' },
-];
-
-export const dummyStudents = [
-  { _id: 's1', name: 'Ananya Krishnan', email: 'ananya@example.com', mobile: '+91 91234 56780', isActive: true, createdAt: new Date(Date.now() - 30 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=1' },
-  { _id: 's2', name: 'Rohan Verma', email: 'rohan@example.com', mobile: '+91 90987 65432', isActive: true, createdAt: new Date(Date.now() - 45 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=3' },
-  { _id: 's3', name: 'Divya Nair', email: 'divya@example.com', mobile: '+91 98456 12378', isActive: false, createdAt: new Date(Date.now() - 60 * 86400000).toISOString(), profileImage: '' },
-  { _id: 's4', name: 'Aditya Kumar', email: 'aditya@example.com', mobile: '+91 76543 21098', isActive: true, createdAt: new Date(Date.now() - 20 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=7' },
-  { _id: 's5', name: 'Meghna Iyer', email: 'meghna@example.com', mobile: '+91 88765 43210', isActive: true, createdAt: new Date(Date.now() - 15 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=5' },
-];
-
-export const dummyStats = {
-  totalStudents: 512,
-  totalClasses: 9,
-  totalApplications: 148,
-  totalEnquiries: 63,
-  totalFaculty: 6,
-  pendingApplications: 24,
-};
