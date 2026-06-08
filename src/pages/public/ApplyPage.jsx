@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiUpload, FiCheckCircle } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { submitApplication } from '../../services/apiServices';
 
 const courses = ['Bharatanatyam', 'Classical Dance', 'Western Dance', 'Hip Hop', 'Contemporary', 'Folk Dance'];
@@ -10,6 +12,8 @@ export default function ApplyPage() {
   const [submitted, setSubmitted] = useState(false);
   const [preview, setPreview] = useState(null);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { user } = useSelector((s) => s.auth);
+  const navigate = useNavigate();
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -17,6 +21,11 @@ export default function ApplyPage() {
   };
 
   const onSubmit = async (data) => {
+    if (!user) {
+      toast.info('Please login to submit an application.');
+      navigate('/login');
+      return;
+    }
     try {
       const formData = new FormData();
       Object.keys(data).forEach(key => {

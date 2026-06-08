@@ -1,13 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiMapPin, FiPhone, FiMail, FiClock, FiSend } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { submitContact } from '../../services/apiServices';
 
 export default function ContactPage() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const { user } = useSelector((s) => s.auth);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    if (!user) {
+      toast.info('Please login to send a message.');
+      navigate('/login');
+      return;
+    }
     try {
       await submitContact(data);
       toast.success('Message sent successfully! We\'ll get back to you soon.');
