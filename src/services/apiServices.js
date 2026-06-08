@@ -70,4 +70,4 @@ export const updateFAQ = (id, data) => API.put(`/faqs/${id}`, data);
 export const deleteFAQ = (id) => API.delete(`/faqs/${id}`);
 
 // Stats
-export const getDashboardStats = () => API.get('/faqs/stats');
+export const getDashboardStats = () => API.get('/admin/dashboard');
