@@ -1,0 +1,44 @@
+export const dummyFaculty = [
+  { _id: 'f1', name: 'Lakshmi Raghavan', specialization: ['Bharatanatyam', 'Classical'], experience: 18, bio: 'Award-winning Bharatanatyam artist trained under Guru Padma Subramaniam. National performer with 200+ stage shows.', image: 'https://i.pravatar.cc/300?img=10', email: 'lakshmi@rhythmdance.com', mobile: '+91 98765 43210' },
+  { _id: 'f2', name: 'Karan Nair', specialization: ['Hip Hop', 'Western', 'Contemporary'], experience: 12, bio: 'Former Bollywood choreographer who has worked with leading film artists and reality show contestants.', image: 'https://i.pravatar.cc/300?img=12', email: 'karan@rhythmdance.com', mobile: '+91 98765 43211' },
+  { _id: 'f3', name: 'Meera Pillai', specialization: ['Contemporary', 'Ballet', 'Folk'], experience: 15, bio: 'International performer with expertise in European contemporary and classical ballet styles.', image: 'https://i.pravatar.cc/300?img=20', email: 'meera@rhythmdance.com', mobile: '+91 98765 43212' },
+  { _id: 'f4', name: 'Arjun Dev', specialization: ['Folk', 'Kids Dance'], experience: 8, bio: 'Specialist in regional folk dance traditions with extensive stage performance and teaching experience.', image: 'https://i.pravatar.cc/300?img=15', email: 'arjun@rhythmdance.com', mobile: '+91 98765 43213' },
+  { _id: 'f5', name: 'Priya Menon', specialization: ['Bharatanatyam', 'Mohiniyattam'], experience: 10, bio: 'Classical dancer specializing in Kerala dance forms, trained at Kalakshetra Foundation, Chennai.', image: 'https://i.pravatar.cc/300?img=25', email: 'priya@rhythmdance.com', mobile: '+91 98765 43214' },
+  { _id: 'f6', name: 'Rohit Sharma', specialization: ['Hip Hop', 'Breakdance'], experience: 7, bio: 'Urban dance champion with multiple national-level competition wins. Expert in popping, locking and b-boying.', image: 'https://i.pravatar.cc/300?img=33', email: 'rohit@rhythmdance.com', mobile: '+91 98765 43215' },
+];
+
+export const dummyClasses = [
+  { _id: 'c1', title: 'Bharatanatyam — Beginner', category: 'Bharatanatyam', description: 'Learn the fundamentals of Bharatanatyam including adavus, mudras, and basic compositions in a structured curriculum.', ageGroup: '6–16 years', duration: '60 minutes', fees: 2500, image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=400&h=300&fit=crop', instructor: { name: 'Lakshmi Raghavan' }, schedule: [{ day: 'Monday', startTime: '06:00', endTime: '07:00' }, { day: 'Wednesday', startTime: '06:00', endTime: '07:00' }] },
+  { _id: 'c2', title: 'Hip Hop — All Levels', category: 'Hip Hop', description: 'Energetic urban dance class covering freestyle, breakdancing, popping & locking for all skill levels.', ageGroup: '10–25 years', duration: '60 minutes', fees: 2000, image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?w=400&h=300&fit=crop', instructor: { name: 'Karan Nair' }, schedule: [{ day: 'Tuesday', startTime: '17:00', endTime: '18:00' }, { day: 'Friday', startTime: '17:00', endTime: '18:00' }] },
+  { _id: 'c3', title: 'Contemporary Dance', category: 'Contemporary', description: 'Expressive modern dance blending ballet, jazz, and lyrical techniques with emotional storytelling.', ageGroup: '12–30 years', duration: '75 minutes', fees: 2200, image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&h=300&fit=crop', instructor: { name: 'Meera Pillai' }, schedule: [{ day: 'Wednesday', startTime: '18:00', endTime: '19:15' }] },
+  { _id: 'c4', title: 'Western Dance — Intermediate', category: 'Western', description: 'Jazz, salsa, ballroom and Latin styles taught by an experienced choreographer. Build stage confidence.', ageGroup: '14–35 years', duration: '60 minutes', fees: 2000, image: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=400&h=300&fit=crop', instructor: { name: 'Karan Nair' }, schedule: [{ day: 'Thursday', startTime: '19:00', endTime: '20:00' }] },
+  { _id: 'c5', title: 'Folk Dance — Traditional', category: 'Folk', description: "Celebrate India's vibrant folk heritage through Garba, Bhangra, Lavani, and Ghoomar dance forms.", ageGroup: 'All ages', duration: '60 minutes', fees: 1800, image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', instructor: { name: 'Arjun Dev' }, schedule: [{ day: 'Saturday', startTime: '10:00', endTime: '11:00' }] },
+  { _id: 'c7', title: 'Bharatanatyam — Advanced', category: 'Bharatanatyam', description: 'Advanced compositions, abhinaya, and arangetram preparation for experienced students.', ageGroup: '12+ years', duration: '90 minutes', fees: 3000, image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=400&h=260&fit=crop', instructor: { name: 'Lakshmi Raghavan' }, schedule: [{ day: 'Friday', startTime: '06:00', endTime: '07:30' }] },
+  { _id: 'c8', title: 'Ballet — Foundation', category: 'Classical', description: 'Classical ballet technique focusing on barre work, centre practice, and graceful movement vocabulary.', ageGroup: '5–15 years', duration: '60 minutes', fees: 2800, image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&h=260&fit=crop', instructor: { name: 'Meera Pillai' }, schedule: [{ day: 'Monday', startTime: '16:00', endTime: '17:00' }] },
+  { _id: 'c9', title: 'Bollywood Fitness Dance', category: 'Western', description: 'A high-energy workout inspired by Bollywood choreography — fun, effective and great for all fitness levels.', ageGroup: '15+ years', duration: '60 minutes', fees: 1800, image: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=400&h=260&fit=crop', instructor: { name: 'Rohit Sharma' }, schedule: [{ day: 'Tuesday', startTime: '07:00', endTime: '08:00' }, { day: 'Thursday', startTime: '07:00', endTime: '08:00' }] },
+];
+
+export const dummyApplications = [
+  { _id: 'a1', fullName: 'Ananya Krishnan', email: 'ananya@example.com', mobile: '+91 91234 56780', selectedCourse: 'Bharatanatyam', gender: 'Female', status: 'Pending', createdAt: new Date(Date.now() - 1 * 86400000).toISOString(), dateOfBirth: '2010-03-15', address: '12, Anna Nagar, Chennai - 600040', previousExperience: 'None', adminNote: '' },
+  { _id: 'a2', fullName: 'Rohan Verma', email: 'rohan@example.com', mobile: '+91 90987 65432', selectedCourse: 'Hip Hop', gender: 'Male', status: 'Approved', createdAt: new Date(Date.now() - 3 * 86400000).toISOString(), dateOfBirth: '2005-07-20', address: '45, T Nagar, Chennai - 600017', previousExperience: '2 years of street dance', adminNote: 'Welcome aboard!' },
+  { _id: 'a3', fullName: 'Divya Nair', email: 'divya@example.com', mobile: '+91 98456 12378', selectedCourse: 'Contemporary', gender: 'Female', status: 'Under Review', createdAt: new Date(Date.now() - 5 * 86400000).toISOString(), dateOfBirth: '2008-11-30', address: '78, Adyar, Chennai - 600020', previousExperience: '1 year classical', adminNote: '' },
+  { _id: 'a4', fullName: 'Aditya Kumar', email: 'aditya@example.com', mobile: '+91 76543 21098', selectedCourse: 'Western Dance', gender: 'Male', status: 'Rejected', createdAt: new Date(Date.now() - 7 * 86400000).toISOString(), dateOfBirth: '2003-05-05', address: '33, Velachery, Chennai - 600042', previousExperience: 'None', adminNote: 'Batch full for this season.' },
+  { _id: 'a5', fullName: 'Meghna Iyer', email: 'meghna@example.com', mobile: '+91 88765 43210', selectedCourse: 'Kids Dance', gender: 'Female', status: 'Approved', createdAt: new Date(Date.now() - 10 * 86400000).toISOString(), dateOfBirth: '2015-02-14', address: '9, Mylapore, Chennai - 600004', previousExperience: 'None', adminNote: 'Enrolled in Saturday batch.' },
+];
+
+export const dummyStudents = [
+  { _id: 's1', name: 'Ananya Krishnan', email: 'ananya@example.com', mobile: '+91 91234 56780', isActive: true, createdAt: new Date(Date.now() - 30 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=1' },
+  { _id: 's2', name: 'Rohan Verma', email: 'rohan@example.com', mobile: '+91 90987 65432', isActive: true, createdAt: new Date(Date.now() - 45 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=3' },
+  { _id: 's3', name: 'Divya Nair', email: 'divya@example.com', mobile: '+91 98456 12378', isActive: false, createdAt: new Date(Date.now() - 60 * 86400000).toISOString(), profileImage: '' },
+  { _id: 's4', name: 'Aditya Kumar', email: 'aditya@example.com', mobile: '+91 76543 21098', isActive: true, createdAt: new Date(Date.now() - 20 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=7' },
+  { _id: 's5', name: 'Meghna Iyer', email: 'meghna@example.com', mobile: '+91 88765 43210', isActive: true, createdAt: new Date(Date.now() - 15 * 86400000).toISOString(), profileImage: 'https://i.pravatar.cc/100?img=5' },
+];
+
+export const dummyStats = {
+  totalStudents: 512,
+  totalClasses: 9,
+  totalApplications: 148,
+  totalEnquiries: 63,
+  totalFaculty: 6,
+  pendingApplications: 24,
+};
