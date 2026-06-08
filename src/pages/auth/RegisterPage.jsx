@@ -30,7 +30,8 @@ export default function RegisterPage() {
   };
 
   const onSubmit = async (data) => {
-    const result = await dispatch(registerUser(data));
+    const { confirmPassword, ...registerData } = data;
+    const result = await dispatch(registerUser(registerData));
     if (registerUser.fulfilled.match(result)) {
       navigate('/student/dashboard');
     }

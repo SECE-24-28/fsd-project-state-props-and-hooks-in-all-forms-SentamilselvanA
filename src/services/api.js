@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
 });
 
@@ -14,7 +14,8 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
+    const isAuthRoute = err.config?.url?.includes('/auth/');
+    if (err.response?.status === 401 && !isAuthRoute) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';

@@ -18,8 +18,6 @@ const storedToken = localStorage.getItem('token');
 export const loginUser = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
   try {
     const { data } = await api.login(credentials);
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
     return data;
   } catch (err) {
     return rejectWithValue(err.response?.data?.message || 'Login failed');
@@ -76,7 +74,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        try { localStorage.setItem('user', JSON.stringify(action.payload.user)); } catch {}
+        try {
+          localStorage.setItem('token', action.payload.token);
+          localStorage.setItem('user', JSON.stringify(action.payload.user));
+        } catch {}
         toast.success(`Welcome back, ${action.payload.user.name}!`);
       })
       .addCase(loginUser.rejected, (state, action) => {
