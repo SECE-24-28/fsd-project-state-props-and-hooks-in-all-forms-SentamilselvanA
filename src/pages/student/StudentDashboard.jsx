@@ -24,7 +24,7 @@ export default function StudentDashboard() {
     });
   }, []);
 
-  const profileCompletion = [user?.name, user?.email, user?.mobile, user?.profileImage].filter(Boolean).length * 25;
+  const profileCompletion = Math.round([user?.name, user?.email, user?.mobile].filter(Boolean).length * (100 / 3));
 
   const cards = [
     { icon: FiFileText, label: 'Applications', value: stats.applications, to: '/student/applications', color: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' },
