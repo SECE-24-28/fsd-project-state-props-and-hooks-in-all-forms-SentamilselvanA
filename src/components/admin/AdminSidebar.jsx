@@ -53,12 +53,8 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
         {/* User Info */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center overflow-hidden">
-              {user?.profileImage ? (
-                <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-primary-600 font-semibold text-sm">{user?.name?.[0]}</span>
-              )}
+            <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+              <span className="text-primary-600 font-semibold text-sm">{user?.name?.[0]}</span>
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user?.name}</p>

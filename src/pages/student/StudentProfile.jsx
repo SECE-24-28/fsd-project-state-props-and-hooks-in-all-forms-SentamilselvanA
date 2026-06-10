@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { FiUpload, FiUser, FiLock, FiSave } from 'react-icons/fi';
-import { updateProfile, uploadProfileImage, updatePassword as updatePwd } from '../../services/apiServices';
+import { FiUser, FiLock, FiSave } from 'react-icons/fi';
+import { updateProfile, updatePassword as updatePwd } from '../../services/apiServices';
 import { updateUserLocal } from '../../store/authSlice';
 
 export default function StudentProfile() {
   const { user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const [tab, setTab] = useState('profile');
-  const [uploading, setUploading] = useState(false);
 
   const { register: regProfile, handleSubmit: handleProfile, formState: { isSubmitting: savingProfile } } = useForm({
     defaultValues: { name: user?.name, mobile: user?.mobile }
@@ -27,20 +26,6 @@ export default function StudentProfile() {
     } catch { toast.error('Update failed'); }
   };
 
-  const onImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-      const { data } = await uploadProfileImage(formData);
-      dispatch(updateUserLocal({ profileImage: data.user.profileImage }));
-      toast.success('Profile picture updated!');
-    } catch { toast.error('Upload failed'); }
-    setUploading(false);
-  };
-
   const onPasswordChange = async (data) => {
     try {
       await updatePwd({ currentPassword: data.currentPassword, newPassword: data.newPassword });
@@ -53,21 +38,14 @@ export default function StudentProfile() {
     <div className="max-w-2xl mx-auto space-y-6">
       <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">My Profile</h1>
 
-      {/* Profile Picture */}
+      {/* Profile Avatar */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 flex items-center gap-5">
-        <div className="relative">
-          <div className="w-20 h-20 rounded-full overflow-hidden bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-            {user?.profileImage ? <img src={user.profileImage} alt="" className="w-full h-full object-cover" /> : <FiUser size={32} className="text-primary-600" />}
-          </div>
-          {uploading && <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center"><div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" /></div>}
+        <div className="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center flex-shrink-0">
+          <span className="text-primary-600 font-bold text-2xl">{user?.name?.[0]?.toUpperCase()}</span>
         </div>
         <div>
           <h3 className="font-semibold text-gray-900 dark:text-white">{user?.name}</h3>
           <p className="text-gray-500 dark:text-gray-400 text-sm">{user?.email}</p>
-          <label className="mt-2 inline-flex items-center gap-1.5 text-sm text-primary-600 cursor-pointer hover:underline">
-            <FiUpload size={14} /> Change Photo
-            <input type="file" accept="image/*" className="hidden" onChange={onImageUpload} />
-          </label>
         </div>
       </div>
 

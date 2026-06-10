@@ -85,8 +85,8 @@ export default function AdminStudents() {
                   <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center overflow-hidden flex-shrink-0">
-                          {user.profileImage ? <img src={user.profileImage} alt="" className="w-full h-full object-cover" /> : <span className="text-primary-600 font-semibold text-sm">{user.name?.[0]}</span>}
+                        <div className="w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center flex-shrink-0">
+                          <span className="text-primary-600 font-semibold text-sm">{user.name?.[0]}</span>
                         </div>
                         <span className="font-medium text-gray-900 dark:text-white text-sm">{user.name}</span>
                       </div>

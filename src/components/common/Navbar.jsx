@@ -60,11 +60,7 @@ export default function Navbar() {
               <div className="relative">
                 <button onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-2 bg-primary-600 text-white px-3 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
-                  {user.profileImage ? (
-                    <img src={user.profileImage} alt={user.name} className="w-6 h-6 rounded-full object-cover" />
-                  ) : (
-                    <FiUser size={16} />
-                  )}
+                  <FiUser size={16} />
                   <span className="max-w-20 truncate">{user.name.split(' ')[0]}</span>
                 </button>
                 {dropdownOpen && (
