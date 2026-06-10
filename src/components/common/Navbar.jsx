@@ -35,7 +35,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-14 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}

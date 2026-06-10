@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMessageSquare, FiBell, FiCheckCircle } from 'react-icons/fi';
+import { FiMessageSquare, FiBell, FiCheckCircle, FiRefreshCw } from 'react-icons/fi';
 import { getMyEnquiries, getNotifications, markNotificationRead } from '../../services/apiServices';
 
 export function StudentEnquiries() {
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchEnquiries = async (silent = false) => {
+    if (!silent) setLoading(true);
+    else setRefreshing(true);
+    try {
+      const { data } = await getMyEnquiries();
+      setEnquiries(data.enquiries || []);
+    } catch {}
+    if (!silent) setLoading(false);
+    else setRefreshing(false);
+  };
 
   useEffect(() => {
-    getMyEnquiries().then(({ data }) => setEnquiries(data.enquiries)).catch(() => {}).finally(() => setLoading(false));
-  }, []);
+    fetchEnquiries();
+    // poll every 30 s so replies appear automatically
+    const timer = setInterval(() => fetchEnquiries(true), 30000);
+    return () => clearInterval(timer);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const statusColors = {
     New: 'bg-blue-100 text-blue-700',
@@ -21,7 +36,17 @@ export function StudentEnquiries() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">My Enquiries</h1>
-        <Link to="/enquiry" className="btn-primary text-sm">New Enquiry</Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => fetchEnquiries(true)}
+            disabled={refreshing}
+            className="btn-secondary text-sm flex items-center gap-1.5"
+          >
+            <FiRefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+            Refresh
+          </button>
+          <Link to="/enquiry" className="btn-primary text-sm">New Enquiry</Link>
+        </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">

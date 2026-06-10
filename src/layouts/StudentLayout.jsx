@@ -29,8 +29,8 @@ export default function StudentLayout() {
       {isOpen && <div className="fixed inset-0 bg-black/50 z-20 lg:hidden" onClick={() => setIsOpen(false)} />}
 
       <aside className={`fixed left-0 top-0 h-screen w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-30 flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
-          <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+          <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-14 w-auto object-contain" />
           <button onClick={() => setIsOpen(false)} className="lg:hidden text-gray-500"><FiX size={20} /></button>
         </div>
 

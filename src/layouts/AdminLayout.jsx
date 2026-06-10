@@ -20,7 +20,7 @@ export default function AdminLayout() {
             <FiMenu size={22} />
           </button>
           <h1 className="text-lg font-semibold text-gray-900 dark:text-white hidden lg:block">
-            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-14 w-auto object-contain" />
           </h1>
           <div className="flex items-center gap-3">
             <button className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative">

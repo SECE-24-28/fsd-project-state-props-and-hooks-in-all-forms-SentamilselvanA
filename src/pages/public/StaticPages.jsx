@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { getFAQs, submitEnquiry } from '../../services/apiServices';
 
@@ -112,7 +113,17 @@ export function TermsPage() {
 
 export function EnquiryPage() {
   const [submitted, setSubmitted] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting }, setValue } = useForm();
+  const { user } = useSelector((s) => s.auth);
+
+  // Pre-fill fields from logged-in user so the enquiry is linked to their account
+  useEffect(() => {
+    if (user) {
+      setValue('name',  user.name);
+      setValue('email', user.email);
+      setValue('mobile', user.mobile || '');
+    }
+  }, [user, setValue]);
 
   const onSubmit = async (data) => {
     try {
