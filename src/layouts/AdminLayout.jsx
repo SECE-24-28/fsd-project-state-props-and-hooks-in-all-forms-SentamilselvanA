@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { FiMenu, FiBell } from 'react-icons/fi';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import { useSelector } from 'react-redux';
+import RhythmDanceLogo from '../assets/rhythmdance.png';
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function AdminLayout() {
             <FiMenu size={22} />
           </button>
           <h1 className="text-lg font-semibold text-gray-900 dark:text-white hidden lg:block">
-            Rhythm Dance Academy — Admin
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
           </h1>
           <div className="flex items-center gap-3">
             <button className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative">

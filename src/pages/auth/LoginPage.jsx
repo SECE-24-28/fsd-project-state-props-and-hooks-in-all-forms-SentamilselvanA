@@ -2,8 +2,27 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { loginUser } from '../../store/authSlice';
+import RhythmDanceLogo from '../../assets/rhythmdance.png';
+
+/* ── dancer photos — different set from Register ── */
+const PHOTOS = [
+  { src: 'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=500&q=85', alt: 'neon dance sign' },
+  { src: 'https://images.unsplash.com/photo-1578736641330-3155e606cd40?w=500&q=85', alt: 'neon studio' },
+  { src: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=500&q=85', alt: 'dancer silhouette' },
+  { src: 'https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=500&q=85', alt: 'stage lights' },
+  { src: 'https://images.unsplash.com/photo-1547153760-18fc86324498?w=500&q=85', alt: 'ballet pose' },
+];
+
+/* mismatched frames — different layout from Register for variety */
+const FRAMES = [
+  { photo: 0, top:  22, left:  30, w: 200, h: 240, rotate:  2   },
+  { photo: 1, top:  50, left: 205, w: 190, h: 210, rotate: -2.5 },
+  { photo: 2, top: 230, left:  60, w: 175, h: 215, rotate:  3   },
+  { photo: 3, top: 210, left: 210, w: 195, h: 230, rotate: -1.5 },
+  { photo: 4, top: 400, left:  95, w: 235, h: 168, rotate:  1.5 },
+];
 
 export default function LoginPage() {
   const [showPass, setShowPass] = useState(false);
@@ -20,77 +39,196 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
-      {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 to-primary-900 items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, white 0%, transparent 50%)' }} />
-        <div className="relative text-center text-white">
-          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-3xl font-bold">R</span>
-          </div>
-          <h2 className="font-display text-4xl font-bold mb-4">Welcome Back!</h2>
-          <p className="text-primary-100 text-lg leading-relaxed max-w-sm">Sign in to access your dance journey, track progress, and stay connected.</p>
+    <div style={{ minHeight: '100vh', display: 'flex', fontFamily: '"Inter", sans-serif' }}>
+
+      {/* ══ LEFT PANEL — photo collage ══ */}
+      <div
+        className="hidden lg:block lg:w-1/2 relative overflow-hidden"
+        style={{ background: 'linear-gradient(145deg, #2d0752 0%, #5b0f72 40%, #3e0d68 100%)' }}
+      >
+        {/* ambient glows */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 30%, rgba(232,121,249,0.22) 0%, transparent 60%)', zIndex: 1 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(249,115,22,0.13) 0%, transparent 55%)', zIndex: 1 }} />
+
+        {/* mismatched collage frames */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}>
+          {FRAMES.map((f, i) => (
+            <div key={i} style={{
+              position: 'absolute',
+              top: f.top, left: f.left, width: f.w, height: f.h,
+              borderRadius: 16, overflow: 'hidden',
+              transform: `rotate(${f.rotate}deg)`,
+              boxShadow: '0 12px 40px rgba(0,0,0,0.55)',
+              border: '2px solid rgba(255,255,255,0.12)',
+            }}>
+              <img src={PHOTOS[f.photo].src} alt={PHOTOS[f.photo].alt}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(1.2) brightness(0.82)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(80,10,130,0.3) 0%, rgba(0,0,0,0.1) 100%)', mixBlendMode: 'multiply' }} />
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Right Panel */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-2 mb-6">
-              <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">R</span>
-              </div>
-              <span className="font-display font-bold text-xl text-gray-900 dark:text-white">Rhythm Dance</span>
-            </Link>
-            <h1 className="text-2xl font-display font-bold text-gray-900 dark:text-white">Sign In</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Don't have an account? <Link to="/register" className="text-primary-600 hover:underline font-medium">Sign up</Link></p>
-          </div>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email Address</label>
-              <div className="relative">
-                <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' } })}
-                  placeholder="your@email.com" className="input-field pl-10" />
-              </div>
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Password</label>
-              <div className="relative">
-                <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input type={showPass ? 'text' : 'password'}
-                  {...register('password', { required: 'Password is required' })}
-                  placeholder="••••••••" className="input-field pl-10 pr-10" />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  {showPass ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
-            </div>
-
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <input type="checkbox" className="rounded border-gray-300" />
-                Remember me
-              </label>
-              <Link to="/forgot-password" className="text-sm text-primary-600 hover:underline">Forgot password?</Link>
-            </div>
-
-            <button type="submit" disabled={loading} className="btn-primary w-full py-3 flex items-center justify-center gap-2">
-              {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Sign In'}
-            </button>
-          </form>
-
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-            <Link to="/" className="hover:text-primary-600">← Back to Home</Link>
+        {/* headline scrim */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
+          background: 'linear-gradient(to top, rgba(22,5,50,0.97) 0%, rgba(22,5,50,0.75) 50%, transparent 100%)',
+          padding: '56px 44px 44px',
+        }}>
+          <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.35rem', fontWeight: 700, lineHeight: 1.25, color: '#fff', margin: '0 0 12px', letterSpacing: '-0.01em' }}>
+            Where Passion Meets{' '}
+            <span style={{ background: 'linear-gradient(90deg, #e879f9, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              Perfection
+            </span>
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: '0.9rem', lineHeight: 1.65, maxWidth: 340, margin: 0 }}>
+            Sign in to continue your dance journey and unlock your full potential.
           </p>
         </div>
       </div>
+
+      {/* ══ RIGHT PANEL — clean white form ══ */}
+      <div
+        className="flex-1 flex items-center justify-center p-6 lg:p-10"
+        style={{ background: '#f8f5ff' }}
+      >
+        <div style={{
+          width: '100%', maxWidth: 460,
+          background: '#ffffff',
+          borderRadius: 20,
+          padding: '40px 44px',
+          boxShadow: '0 4px 40px rgba(90,20,150,0.10)',
+        }}>
+
+          {/* Logo */}
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+            <Link to="/" style={{ display: 'inline-block', textDecoration: 'none', marginBottom: 18 }}>
+              <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" style={{ height: 100, width: 'auto', objectFit: 'contain' }} />
+            </Link>
+
+            <h1 style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.7rem', fontWeight: 700, color: '#1a0a2e', margin: '0 0 6px' }}>
+              Welcome{' '}
+              <span style={{ background: 'linear-gradient(90deg, #c026d3, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Back
+              </span>
+            </h1>
+            <p style={{ color: '#7c6e91', fontSize: '0.875rem' }}>
+              Don't have an account?{' '}
+              <Link to="/register" style={{ color: '#c026d3', fontWeight: 600, textDecoration: 'none' }}>Sign up</Link>
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {/* Email */}
+            <CleanField label="Email Address" error={errors.email?.message}>
+              <CleanInput
+                {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' } })}
+                placeholder="your@email.com"
+              />
+            </CleanField>
+
+            {/* Password */}
+            <CleanField label="Password" error={errors.password?.message}>
+              <div style={{ position: 'relative' }}>
+                <CleanInput
+                  type={showPass ? 'text' : 'password'}
+                  {...register('password', { required: 'Password is required' })}
+                  placeholder="••••••••"
+                  style={{ paddingRight: 44 }}
+                />
+                <EyeBtn show={showPass} onClick={() => setShowPass(p => !p)} />
+              </div>
+            </CleanField>
+
+            {/* Remember me + Forgot */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -4 }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                <input type="checkbox" style={{ width: 15, height: 15, accentColor: '#c026d3', cursor: 'pointer' }} />
+                <span style={{ fontSize: '0.82rem', color: '#7c6e91' }}>Remember me</span>
+              </label>
+              <Link to="/forgot-password" style={{ fontSize: '0.82rem', color: '#c026d3', textDecoration: 'none', fontWeight: 500 }}>
+                Forgot password?
+              </Link>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                marginTop: 4,
+                width: '100%', padding: '13px',
+                background: loading ? '#d580e8' : '#c026d3',
+                border: 'none', borderRadius: 10,
+                color: '#fff', fontWeight: 700, fontSize: '0.95rem',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                boxShadow: '0 4px 18px rgba(192,38,211,0.35)',
+                transition: 'background 0.2s, box-shadow 0.2s',
+                letterSpacing: '0.02em',
+              }}
+              onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = '#a21caf'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(162,28,175,0.45)'; } }}
+              onMouseLeave={e => { if (!loading) { e.currentTarget.style.background = '#c026d3'; e.currentTarget.style.boxShadow = '0 4px 18px rgba(192,38,211,0.35)'; } }}
+            >
+              {loading
+                ? <div style={{ width: 20, height: 20, border: '2px solid rgba(255,255,255,0.35)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                : 'Sign In'}
+            </button>
+          </form>
+
+          <p style={{ textAlign: 'center', marginTop: 22, fontSize: '0.8rem' }}>
+            <Link to="/" style={{ color: '#b0a0c8', textDecoration: 'none' }}>← Back to Home</Link>
+          </p>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        input::placeholder { color: #c4b8d8; }
+      `}</style>
     </div>
+  );
+}
+
+/* ── shared helpers (mirror of RegisterPage) ── */
+function CleanField({ label, error, children }) {
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#3b2460', marginBottom: 6, letterSpacing: '0.01em' }}>
+        {label}
+      </label>
+      {children}
+      {error && <p style={{ color: '#dc2626', fontSize: '0.72rem', marginTop: 4 }}>{error}</p>}
+    </div>
+  );
+}
+
+const CleanInput = React.forwardRef(({ style, ...props }, ref) => (
+  <input
+    ref={ref}
+    {...props}
+    style={{
+      width: '100%', boxSizing: 'border-box',
+      padding: '11px 14px',
+      background: '#fff',
+      border: '1.5px solid #e2d9f3',
+      borderRadius: 9,
+      color: '#1a0a2e',
+      fontSize: '0.9rem',
+      outline: 'none',
+      transition: 'border-color 0.2s, box-shadow 0.2s',
+      ...style,
+    }}
+    onFocus={e => { e.target.style.borderColor = '#c026d3'; e.target.style.boxShadow = '0 0 0 3px rgba(192,38,211,0.1)'; }}
+    onBlur={e  => { e.target.style.borderColor = '#e2d9f3'; e.target.style.boxShadow = 'none'; }}
+  />
+));
+
+function EyeBtn({ show, onClick }) {
+  return (
+    <button type="button" onClick={onClick}
+      style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#b0a0c8', cursor: 'pointer', padding: 0, display: 'flex' }}>
+      {show ? <FiEyeOff size={17} /> : <FiEye size={17} />}
+    </button>
   );
 }

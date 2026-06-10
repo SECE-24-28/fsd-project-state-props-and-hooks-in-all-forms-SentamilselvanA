@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiFacebook, FiInstagram, FiYoutube, FiTwitter, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import RhythmDanceLogo from '../../assets/rhythmdance.png';
 
 export default function Footer() {
   return (
@@ -9,10 +10,7 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
-            </div>
-            <span className="font-display font-bold text-xl text-white">Rhythm Dance</span>
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
           </div>
           <p className="text-sm text-gray-400 leading-relaxed mb-5">Where every step tells a story. Join us and discover the joy of dance.</p>
           <div className="flex gap-3">

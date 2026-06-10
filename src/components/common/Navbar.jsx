@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FiMenu, FiX, FiMoon, FiSun, FiUser, FiLogOut, FiSettings } from 'react-icons/fi';
 import { logoutUser } from '../../store/authSlice';
 import { useTheme } from '../../context/ThemeContext';
+import RhythmDanceLogo from '../../assets/rhythmdance.png';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -34,10 +35,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
-            </div>
-            <span className="font-display font-bold text-xl text-gray-900 dark:text-white">Rhythm<span className="gradient-text">Dance</span></span>
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}

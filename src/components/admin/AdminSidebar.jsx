@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fi';
 import { logoutUser } from '../../store/authSlice';
 import { useTheme } from '../../context/ThemeContext';
+import RhythmDanceLogo from '../../assets/rhythmdance.png';
 
 const navItems = [
   { to: '/admin/dashboard', icon: FiHome, label: 'Dashboard' },
@@ -41,9 +42,7 @@ export default function AdminSidebar({ isOpen, setIsOpen }) {
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-accent-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">R</span>
-            </div>
+            <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-9 w-auto object-contain" />
             <span className="font-display font-bold text-gray-900 dark:text-white">Admin Panel</span>
           </div>
           <button onClick={() => setIsOpen(false)} className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400">

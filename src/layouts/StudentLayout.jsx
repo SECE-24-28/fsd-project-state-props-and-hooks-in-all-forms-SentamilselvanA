@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FiHome, FiUser, FiFileText, FiMessageSquare, FiBell, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 import { logoutUser } from '../store/authSlice';
 import { useTheme } from '../context/ThemeContext';
+import RhythmDanceLogo from '../assets/rhythmdance.png';
 import { FiMoon, FiSun } from 'react-icons/fi';
 
 const navItems = [
@@ -29,7 +30,7 @@ export default function StudentLayout() {
 
       <aside className={`fixed left-0 top-0 h-screen w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-30 flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
-          <span className="font-display font-bold text-gray-900 dark:text-white">My Dashboard</span>
+          <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-10 w-auto object-contain" />
           <button onClick={() => setIsOpen(false)} className="lg:hidden text-gray-500"><FiX size={20} /></button>
         </div>
 
