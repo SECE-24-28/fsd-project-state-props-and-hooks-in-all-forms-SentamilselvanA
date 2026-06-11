@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { FiMenu, FiBell } from 'react-icons/fi';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,9 @@ export default function AdminLayout() {
             <img src={RhythmDanceLogo} alt="Rhythm Dance Academy" className="h-14 w-auto object-contain" />
           </h1>
           <div className="flex items-center gap-3">
+            <NavLink to="/" className="hidden lg:flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium">
+              ← Back to Site
+            </NavLink>
             <button className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative">
               <FiBell size={20} />
             </button>

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { FiMapPin, FiPhone, FiMail, FiClock, FiSend } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { submitContact } from '../../services/apiServices';
+import heroBg from '../../assets/bg-rhythmdance.png';
 
 export default function ContactPage() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -28,9 +29,12 @@ export default function ContactPage() {
 
   return (
     <div className="pt-16">
-      <div className="bg-gradient-to-br from-gray-900 to-primary-900 py-24 text-center">
-        <h1 className="font-display text-5xl font-bold text-white mb-4">Contact Us</h1>
-        <p className="text-gray-300 max-w-xl mx-auto">Have questions? We'd love to hear from you.</p>
+      <div className="relative bg-cover bg-center bg-no-repeat text-center min-h-[300px] flex items-center justify-center" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10">
+          <h1 className="font-display text-5xl font-bold text-white mb-4 drop-shadow-lg">Contact Us</h1>
+          <p className="text-white/90 max-w-xl mx-auto drop-shadow-md">Have questions? We'd love to hear from you.</p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-3 gap-12">

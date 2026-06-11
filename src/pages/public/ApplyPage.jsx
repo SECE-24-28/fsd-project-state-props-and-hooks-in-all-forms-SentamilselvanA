@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { FiUpload, FiCheckCircle } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { submitApplication } from '../../services/apiServices';
+import heroBg from '../../assets/bg-rhythmdance.png';
 
 const courses = ['Bharatanatyam', 'Classical Dance', 'Western Dance', 'Hip Hop', 'Contemporary', 'Folk Dance'];
 
@@ -55,9 +56,12 @@ export default function ApplyPage() {
 
   return (
     <div className="pt-16">
-      <div className="bg-gradient-to-br from-gray-900 to-primary-900 py-24 text-center">
-        <h1 className="font-display text-5xl font-bold text-white mb-4">Apply Now</h1>
-        <p className="text-gray-300 max-w-xl mx-auto">Start your dance journey with us. Fill out the form below.</p>
+      <div className="relative bg-cover bg-center bg-no-repeat text-center min-h-[300px] flex items-center justify-center" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10">
+          <h1 className="font-display text-5xl font-bold text-white mb-4">Apply Now</h1>
+          <p className="text-gray-300 max-w-xl mx-auto">Start your dance journey with us. Fill out the form below.</p>
+        </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16">

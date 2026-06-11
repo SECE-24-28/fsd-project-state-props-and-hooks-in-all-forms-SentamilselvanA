@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   FiHome, FiUsers, FiBook, FiUserCheck, FiFileText, FiMessageSquare,
-  FiPhone, FiBell, FiSettings, FiLogOut, FiX, FiHelpCircle, FiMoon, FiSun
+  FiPhone, FiBell, FiSettings, FiLogOut, FiX, FiHelpCircle, FiMoon, FiSun, FiExternalLink
 } from 'react-icons/fi';
 import { logoutUser } from '../../store/authSlice';
 import { useTheme } from '../../context/ThemeContext';
@@ -19,7 +19,6 @@ const navItems = [
   { to: '/admin/contacts', icon: FiPhone, label: 'Contacts' },
   { to: '/admin/notifications', icon: FiBell, label: 'Notifications' },
   { to: '/admin/faqs', icon: FiHelpCircle, label: 'FAQs' },
-  { to: '/admin/settings', icon: FiSettings, label: 'Settings' },
 ];
 
 export default function AdminSidebar({ isOpen, setIsOpen }) {

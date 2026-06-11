@@ -3,6 +3,7 @@ import { FiMail, FiPhone, FiAward } from 'react-icons/fi';
 import { getFaculty } from '../../services/apiServices';
 import { dummyFaculty } from '../../data/dummyData';
 import { CardSkeleton } from '../../components/common/LoadingSpinner';
+import heroBg from '../../assets/bg-rhythmdance.png';
 
 export default function FacultyPage() {
   const [faculty, setFaculty] = useState([]);
@@ -16,9 +17,12 @@ export default function FacultyPage() {
 
   return (
     <div className="pt-16">
-      <div className="bg-gradient-to-br from-gray-900 to-primary-900 py-24 text-center">
-        <h1 className="font-display text-5xl font-bold text-white mb-4">Our Faculty</h1>
-        <p className="text-gray-300 max-w-xl mx-auto">Meet our team of passionate and experienced dance instructors.</p>
+      <div className="relative bg-cover bg-center bg-no-repeat text-center min-h-[300px] flex items-center justify-center" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10">
+          <h1 className="font-display text-5xl font-bold text-white mb-4">Our Faculty</h1>
+          <p className="text-gray-300 max-w-xl mx-auto">Meet our team of passionate and experienced dance instructors.</p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

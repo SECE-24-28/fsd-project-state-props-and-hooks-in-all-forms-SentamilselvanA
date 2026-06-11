@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
+import heroBg from '../../assets/bg-rhythmdance.png';
+
 
 const instructors = [
   { name: 'Lakshmi Raghavan', role: 'Bharatanatyam & Classical', exp: '18 Years', image: 'https://i.pravatar.cc/300?img=10' },
@@ -12,10 +14,13 @@ export default function AboutPage() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-gray-900 to-primary-900 py-24 text-center">
-        <span className="text-primary-300 text-sm font-semibold uppercase tracking-wider">About Us</span>
-        <h1 className="font-display text-5xl font-bold text-white mt-3 mb-4">Our Story & Mission</h1>
-        <p className="text-gray-300 max-w-2xl mx-auto px-4">Dedicated to the art of dance since 2010, nurturing creativity and passion in every student.</p>
+      <div className="relative bg-cover bg-center bg-no-repeat text-center min-h-[300px] flex items-center justify-center" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10">
+          <span className="text-primary-300 text-sm font-semibold uppercase tracking-wider">About Us</span>
+          <h1 className="font-display text-5xl font-bold text-white mt-3 mb-4">Our Story & Mission</h1>
+          <p className="text-gray-300 max-w-2xl mx-auto px-4">Dedicated to the art of dance since 2010, nurturing creativity and passion in every student.</p>
+        </div>
       </div>
 
       {/* Mission & Vision */}
