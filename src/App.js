@@ -12,6 +12,7 @@ import { ProtectedRoute, PublicOnlyRoute } from './routes/ProtectedRoute';
 import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
 import StudentLayout from './layouts/StudentLayout';
+import FacultyLayout from './layouts/FacultyLayout';
 
 // Public Pages
 import HomePage from './pages/public/HomePage';
@@ -40,6 +41,10 @@ import AdminClasses from './pages/admin/AdminClasses';
 import AdminFaculty from './pages/admin/AdminFaculty';
 import AdminApplications from './pages/admin/AdminApplications';
 import { AdminEnquiries, AdminContacts, AdminNotifications, AdminFAQs, AdminSettings } from './pages/admin/AdminPages';
+
+// Faculty Pages
+import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import { FacultyClasses, FacultyStudents, FacultyNotifications, FacultyProfile } from './pages/faculty/FacultyPages';
 
 function App() {
   return (
@@ -94,6 +99,17 @@ function App() {
                 <Route path="/admin/notifications" element={<AdminNotifications />} />
                 <Route path="/admin/faqs" element={<AdminFAQs />} />
                 <Route path="/admin/settings" element={<AdminSettings />} />
+              </Route>
+            </Route>
+
+            {/* Faculty Routes */}
+            <Route element={<ProtectedRoute role="faculty" />}>
+              <Route element={<FacultyLayout />}>
+                <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
+                <Route path="/faculty/classes" element={<FacultyClasses />} />
+                <Route path="/faculty/students" element={<FacultyStudents />} />
+                <Route path="/faculty/notifications" element={<FacultyNotifications />} />
+                <Route path="/faculty/profile" element={<FacultyProfile />} />
               </Route>
             </Route>
 
