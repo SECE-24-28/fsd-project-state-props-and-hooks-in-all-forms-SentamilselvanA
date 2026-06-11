@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { FiX, FiSend, FiTrash2, FiPlus, FiEdit2, FiMessageSquare } from 'react-icons/fi';
-import { getAllEnquiries, replyEnquiry, deleteEnquiry, getAllContacts, updateContact, deleteContact, getAllNotificationsAdmin, createNotification, deleteNotification, getFAQs, createFAQ, updateFAQ, deleteFAQ, getSettings, updateSettings } from '../../services/apiServices';
+import { getAllEnquiries, replyEnquiry, deleteEnquiry, getAllContacts, updateContact, deleteContact, getAllNotificationsAdmin, createNotification, deleteNotification, getFAQs, createFAQ, updateFAQ, deleteFAQ, getSettings, updateSettings, getClasses } from '../../services/apiServices';
+import { dummyClasses, dummyFaculty } from '../../data/dummyData';
 
 // ─── ENQUIRIES ──────────────────────────────────────────────────────────────
 
@@ -175,15 +176,28 @@ export function AdminContacts() {
 export function AdminNotifications() {
   const [notifications, setNotifications] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
+  const [classes, setClasses] = useState([]);
+  const { register, handleSubmit, reset, watch, formState: { isSubmitting } } = useForm();
 
-  useEffect(() => { getAllNotificationsAdmin().then(({ data }) => setNotifications(data.notifications)).catch(() => {}); }, []);
+  useEffect(() => {
+    getAllNotificationsAdmin().then(({ data }) => setNotifications(data.notifications)).catch(() => {});
+    getClasses({ limit: 50 }).then(({ data }) => {
+      const apiClasses = data.classes || [];
+      const apiIds = new Set(apiClasses.map(c => c._id));
+      const merged = [...dummyClasses.filter(c => !apiIds.has(c._id)), ...apiClasses];
+      setClasses(merged);
+    }).catch(() => setClasses(dummyClasses));
+  }, []);
+
+  const targetRole = watch('targetRole', 'all');
 
   const onSubmit = async (data) => {
     try {
-      const { data: res } = await createNotification(data);
+      const payload = { ...data };
+      if (payload.targetRole !== 'student') delete payload.targetClass;
+      const { data: res } = await createNotification(payload);
       setNotifications(prev => [res.notification, ...prev]);
-      toast.success('Notification created!');
+      toast.success('Notification sent!');
       setShowForm(false);
       reset();
     } catch { toast.error('Failed to create notification'); }
@@ -213,6 +227,7 @@ export function AdminNotifications() {
                     <h3 className="font-semibold text-gray-900 dark:text-white text-sm">{n.title}</h3>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${typeColors[n.type]}`}>{n.type}</span>
                     <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-full">→ {n.targetRole}</span>
+                    {n.targetClass && <span className="text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 px-2 py-0.5 rounded-full">📚 {n.targetClass}</span>}
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{n.message}</p>
                   <p className="text-xs text-gray-400 mt-1">{new Date(n.createdAt).toLocaleDateString()}</p>
@@ -255,6 +270,15 @@ export function AdminNotifications() {
                   </select>
                 </div>
               </div>
+              {targetRole === 'student' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Target Class <span className="text-gray-400 font-normal">(optional — leave blank for all students)</span></label>
+                  <select {...register('targetClass')} className="input-field">
+                    <option value="">All Students</option>
+                    {classes.map(c => <option key={c._id} value={c.title}>{c.title}</option>)}
+                  </select>
+                </div>
+              )}
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="btn-secondary flex-1">Cancel</button>
                 <button type="submit" disabled={isSubmitting} className="btn-primary flex-1">{isSubmitting ? 'Creating...' : 'Create'}</button>

@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <div className="relative bg-cover bg-center bg-no-repeat text-center min-h-[300px] flex items-center justify-center" style={{ backgroundImage: `url(${heroBg})` }}>
+      <div className="relative bg-cover bg-center bg-no-repeat py-24 text-center" style={{ backgroundImage: `url(${heroBg})` }}>
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10">
           <span className="text-primary-300 text-sm font-semibold uppercase tracking-wider">About Us</span>

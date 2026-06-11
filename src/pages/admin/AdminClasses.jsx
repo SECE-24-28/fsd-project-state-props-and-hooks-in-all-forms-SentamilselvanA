@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload } from 'react-icons/fi';
 import { getClasses, createClass, updateClass, deleteClass, getFaculty } from '../../services/apiServices';
-import { dummyClasses } from '../../data/dummyData';
+import { dummyClasses, dummyFaculty } from '../../data/dummyData';
 
 export default function AdminClasses() {
   const [classes, setClasses] = useState([]);
@@ -17,7 +17,11 @@ export default function AdminClasses() {
 
   useEffect(() => {
     fetchData();
-    getFaculty().then(({ data }) => setFaculty(data.faculty)).catch(() => {});
+    getFaculty().then(({ data }) => {
+      const apiFaculty = data.faculty || [];
+      const apiIds = new Set(apiFaculty.map(f => f._id));
+      setFaculty([...dummyFaculty.filter(f => !apiIds.has(f._id)), ...apiFaculty]);
+    }).catch(() => setFaculty(dummyFaculty));
   }, []);
 
   const fetchData = async () => {
@@ -34,6 +38,7 @@ export default function AdminClasses() {
     setImagePreview(cls?.image || null);
     if (cls) {
       Object.keys(cls).forEach(k => setValue(k, cls[k]));
+      setValue('instructorId', cls.instructor?._id || cls.instructor || '');
       setValue('scheduleDay', cls.schedule?.[0]?.day || '');
       setValue('scheduleStart', cls.schedule?.[0]?.startTime || '');
       setValue('scheduleEnd', cls.schedule?.[0]?.endTime || '');
@@ -44,20 +49,29 @@ export default function AdminClasses() {
     setShowModal(true);
   };
 
+  const isDummyId = (id) => !id || !/^[a-f\d]{24}$/i.test(id);
+
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
       const schedule = data.scheduleDay ? [{ day: data.scheduleDay, startTime: data.scheduleStart, endTime: data.scheduleEnd }] : [];
       formData.append('schedule', JSON.stringify(schedule));
 
-      ['title', 'description', 'category', 'ageGroup', 'duration', 'fees', 'instructor'].forEach(k => {
+      ['title', 'description', 'category', 'ageGroup', 'duration', 'fees'].forEach(k => {
         if (data[k]) formData.append(k, data[k]);
       });
 
+      if (data.instructorId && !isDummyId(data.instructorId)) {
+        formData.append('instructor', data.instructorId);
+      }
+
       if (data.image?.[0]) formData.append('image', data.image[0]);
 
-      if (editClass) await updateClass(editClass._id, formData);
-      else await createClass(formData);
+      if (editClass && !isDummyId(editClass._id)) {
+        await updateClass(editClass._id, formData);
+      } else {
+        await createClass(formData);
+      }
 
       toast.success(`Class ${editClass ? 'updated' : 'created'} successfully!`);
       setShowModal(false);
@@ -153,7 +167,7 @@ export default function AdminClasses() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Instructor</label>
-                  <select {...register('instructor')} className="input-field">
+                  <select {...register('instructorId')} className="input-field">
                     <option value="">Select instructor</option>
                     {faculty.map(f => <option key={f._id} value={f._id}>{f.name}</option>)}
                   </select>

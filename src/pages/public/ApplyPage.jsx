@@ -127,7 +127,7 @@ export default function ApplyPage() {
             </div>
 
             {/* Photo Upload */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Upload Photo</label>
               <div className="flex items-center gap-4">
                 {preview && <img src={preview} alt="Preview" className="w-16 h-16 rounded-full object-cover border-2 border-primary-300" />}
@@ -137,7 +137,7 @@ export default function ApplyPage() {
                   <input type="file" accept="image/*" {...register('photo')} onChange={handlePhotoChange} className="hidden" />
                 </label>
               </div>
-            </div>
+            </div> */}
 
             <button type="submit" disabled={isSubmitting} className="btn-primary w-full py-3 flex items-center justify-center gap-2">
               {isSubmitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Submit Application'}

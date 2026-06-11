@@ -10,7 +10,11 @@ export default function FacultyPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getFaculty().then(({ data }) => setFaculty(data.faculty?.length ? data.faculty : dummyFaculty)).catch(() => setFaculty(dummyFaculty)).finally(() => setLoading(false));
+    getFaculty().then(({ data }) => {
+      const apiFaculty = data.faculty || [];
+      const apiIds = new Set(apiFaculty.map(f => f._id));
+      setFaculty([...dummyFaculty.filter(f => !apiIds.has(f._id)), ...apiFaculty]);
+    }).catch(() => setFaculty(dummyFaculty)).finally(() => setLoading(false));
   }, []);
 
   const displayFaculty = faculty;

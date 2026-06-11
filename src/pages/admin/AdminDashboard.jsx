@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiUsers, FiBook, FiFileText, FiMessageSquare, FiUserCheck, FiAlertCircle } from 'react-icons/fi';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { getDashboardStats, getAllApplications } from '../../services/apiServices';
+import { getDashboardStats, getAllApplications, getClasses, getFaculty } from '../../services/apiServices';
+import { dummyClasses, dummyFaculty } from '../../data/dummyData';
 
 const COLORS = ['#10b981', '#f97316', '#ef4444', '#06b6d4'];
 const STATUS_ORDER = ['Approved', 'Pending', 'Rejected', 'Under Review'];
@@ -25,12 +26,25 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getDashboardStats(), getAllApplications({ limit: 5 })])
-      .then(([dash, apps]) => {
+    Promise.all([
+      getDashboardStats(),
+      getAllApplications({ limit: 5 }),
+      getClasses({ limit: 50 }),
+      getFaculty(),
+    ])
+      .then(([dash, apps, classesRes, facultyRes]) => {
         if (dash.data.success) {
-          setStats(dash.data.stats);
+          const apiClasses = classesRes.data.classes || [];
+          const apiFaculty = facultyRes.data.faculty || [];
+
+          const apiClassIds = new Set(apiClasses.map(c => c._id));
+          const apiFacultyIds = new Set(apiFaculty.map(f => f._id));
+
+          const totalClasses = apiClasses.length + dummyClasses.filter(c => !apiClassIds.has(c._id)).length;
+          const totalFaculty = apiFaculty.length + dummyFaculty.filter(f => !apiFacultyIds.has(f._id)).length;
+
+          setStats({ ...dash.data.stats, totalClasses, totalFaculty });
           setStudentsByClass(dash.data.studentsByClass || []);
-          // Sort pie data in consistent order
           const sorted = STATUS_ORDER
             .map(name => dash.data.applicationStatus?.find(s => s.name === name))
             .filter(Boolean);
@@ -39,7 +53,7 @@ export default function AdminDashboard() {
         setRecentApps(apps.data.applications || []);
       })
       .catch(() => {
-        setStats({ totalStudents: 0, totalClasses: 0, totalApplications: 0, totalEnquiries: 0, totalFaculty: 0, pendingApplications: 0 });
+        setStats({ totalStudents: 0, totalClasses: dummyClasses.length, totalApplications: 0, totalEnquiries: 0, totalFaculty: dummyFaculty.length, pendingApplications: 0 });
         setStudentsByClass([]);
         setApplicationStatus([]);
         setRecentApps([]);

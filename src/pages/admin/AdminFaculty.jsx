@@ -14,11 +14,25 @@ export default function AdminFaculty() {
 
   const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm();
 
+  const [hiddenDummies, setHiddenDummies] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('hiddenDummyFaculty') || '[]'); } catch { return []; }
+  });
+
   useEffect(() => { fetchFaculty(); }, []);
 
   const fetchFaculty = async () => {
     setLoading(true);
-    try { const { data } = await getFaculty(); setFaculty(data.faculty?.length ? data.faculty : dummyFaculty); } catch { setFaculty(dummyFaculty); }
+    try {
+      const { data } = await getFaculty();
+      const apiFaculty = data.faculty || [];
+      const apiIds = new Set(apiFaculty.map(f => f._id));
+      const hidden = JSON.parse(localStorage.getItem('hiddenDummyFaculty') || '[]');
+      const merged = [...dummyFaculty.filter(f => !apiIds.has(f._id) && !hidden.includes(f._id)), ...apiFaculty];
+      setFaculty(merged);
+    } catch { 
+      const hidden = JSON.parse(localStorage.getItem('hiddenDummyFaculty') || '[]');
+      setFaculty(dummyFaculty.filter(f => !hidden.includes(f._id))); 
+    }
     setLoading(false);
   };
 
@@ -57,8 +71,18 @@ export default function AdminFaculty() {
     } catch (err) { toast.error(err.response?.data?.message || 'Operation failed'); }
   };
 
+  const isDummy = (id) => dummyFaculty.some(f => f._id === id);
+
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Delete ${name}?`)) return;
+    if (isDummy(id)) {
+      const updated = [...hiddenDummies, id];
+      setHiddenDummies(updated);
+      localStorage.setItem('hiddenDummyFaculty', JSON.stringify(updated));
+      setFaculty(prev => prev.filter(f => f._id !== id));
+      toast.success('Faculty deleted');
+      return;
+    }
     try { await deleteFaculty(id); toast.success('Faculty deleted'); fetchFaculty(); }
     catch { toast.error('Delete failed'); }
   };
