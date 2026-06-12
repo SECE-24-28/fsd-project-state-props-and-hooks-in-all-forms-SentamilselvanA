@@ -58,7 +58,18 @@ export default function Hero() {
             'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=400&h=500&fit=crop',
           ].map((src, i) => (
             <div key={i} className={`rounded-2xl overflow-hidden ${i === 0 || i === 3 ? 'row-span-1' : ''} ${i % 2 === 0 ? 'mt-8' : ''}`}>
-              <img src={src} alt="Dance" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" style={{ height: i === 0 || i === 3 ? '280px' : '200px' }} />
+              <img
+  src={src}
+  alt="Dance"
+  className="w-full object-cover hover:scale-105 transition-transform duration-500"
+  style={{
+    height:
+      i === 0 ? '280px' :
+      i === 1 ? '350px' :
+      i === 2 ? '200px' :
+      '280px'
+  }}
+/>
             </div>
           ))}
         </div>
