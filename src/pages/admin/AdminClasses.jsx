@@ -13,6 +13,8 @@ export default function AdminClasses() {
   const [editClass, setEditClass] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const [imageFile, setImageFile] = useState(null);
+
   const { register, handleSubmit, reset, setValue, formState: { isSubmitting, errors } } = useForm();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function AdminClasses() {
   const openModal = (cls = null) => {
     setEditClass(cls);
     setImagePreview(cls?.image || null);
+    setImageFile(null);
     if (cls) {
       Object.keys(cls).forEach(k => setValue(k, cls[k]));
       setValue('instructorId', cls.instructor?._id || cls.instructor || '');
@@ -65,7 +68,7 @@ export default function AdminClasses() {
         formData.append('instructor', data.instructorId);
       }
 
-      if (data.image?.[0]) formData.append('image', data.image[0]);
+      if (imageFile) formData.append('image', imageFile);
 
       if (editClass && !isDummyId(editClass._id)) {
         await updateClass(editClass._id, formData);
@@ -204,7 +207,7 @@ export default function AdminClasses() {
                   <label className="flex items-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 cursor-pointer hover:border-primary-500 transition-colors">
                     <FiUpload size={18} className="text-gray-400" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">Upload image</span>
-                    <input type="file" accept="image/*" {...register('image')} onChange={(e) => { if (e.target.files[0]) setImagePreview(URL.createObjectURL(e.target.files[0])); }} className="hidden" />
+                    <input type="file" accept="image/*" onChange={(e) => { const f = e.target.files[0]; if (f) { setImageFile(f); setImagePreview(URL.createObjectURL(f)); } }} className="hidden" />
                   </label>
                   {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2 h-32 rounded-lg object-cover" />}
                 </div>

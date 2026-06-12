@@ -12,6 +12,8 @@ export default function AdminFaculty() {
   const [editItem, setEditItem] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const [imageFile, setImageFile] = useState(null);
+
   const { register, handleSubmit, reset, setValue, formState: { isSubmitting } } = useForm();
 
   const [hiddenDummies, setHiddenDummies] = useState(() => {
@@ -39,6 +41,7 @@ export default function AdminFaculty() {
   const openModal = (item = null) => {
     setEditItem(item);
     setImagePreview(item?.image || null);
+    setImageFile(null);
     if (item) {
       setValue('name', item.name);
       setValue('experience', item.experience);
@@ -60,7 +63,7 @@ export default function AdminFaculty() {
       formData.append('specialization', JSON.stringify(spec));
       formData.append('qualifications', JSON.stringify(quals));
       ['name', 'experience', 'bio', 'email', 'mobile'].forEach(k => { if (data[k]) formData.append(k, data[k]); });
-      if (data.image?.[0]) formData.append('image', data.image[0]);
+      if (imageFile) formData.append('image', imageFile);
 
       if (editItem) await updateFaculty(editItem._id, formData);
       else await createFaculty(formData);
@@ -168,7 +171,7 @@ export default function AdminFaculty() {
                 <label className="flex items-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 cursor-pointer hover:border-primary-500 transition-colors">
                   <FiUpload size={18} className="text-gray-400" />
                   <span className="text-sm text-gray-500">Upload photo</span>
-                  <input type="file" accept="image/*" {...register('image')} onChange={(e) => { if (e.target.files[0]) setImagePreview(URL.createObjectURL(e.target.files[0])); }} className="hidden" />
+                  <input type="file" accept="image/*" onChange={(e) => { const f = e.target.files[0]; if (f) { setImageFile(f); setImagePreview(URL.createObjectURL(f)); } }} className="hidden" />
                 </label>
                 {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2 h-24 w-24 rounded-full object-cover" />}
               </div>

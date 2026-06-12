@@ -12,13 +12,13 @@ import RhythmDanceLogo from '../../assets/rhythmdance.png';
 const navItems = [
   { to: '/admin/dashboard', icon: FiHome, label: 'Dashboard' },
   { to: '/admin/students', icon: FiUsers, label: 'Students' },
-  { to: '/admin/classes', icon: FiBook, label: 'Classes' },
   { to: '/admin/faculty', icon: FiUserCheck, label: 'Faculty' },
+  { to: '/admin/classes', icon: FiBook, label: 'Classes' },
   { to: '/admin/applications', icon: FiFileText, label: 'Applications' },
   { to: '/admin/enquiries', icon: FiMessageSquare, label: 'Enquiries' },
   { to: '/admin/contacts', icon: FiPhone, label: 'Contacts' },
   { to: '/admin/notifications', icon: FiBell, label: 'Notifications' },
-  { to: '/admin/faqs', icon: FiHelpCircle, label: 'FAQs' },
+  // { to: '/admin/faqs', icon: FiHelpCircle, label: 'FAQs' },
 ];
 
 export default function AdminSidebar({ isOpen, setIsOpen }) {
