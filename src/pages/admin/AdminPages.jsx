@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { FiX, FiSend, FiTrash2, FiPlus, FiEdit2, FiMessageSquare } from 'react-icons/fi';
 import { getAllEnquiries, replyEnquiry, deleteEnquiry, getAllContacts, updateContact, deleteContact, getAllNotificationsAdmin, createNotification, deleteNotification, getFAQs, createFAQ, updateFAQ, deleteFAQ, getSettings, updateSettings, getClasses } from '../../services/apiServices';
@@ -27,17 +26,15 @@ export function AdminEnquiries() {
     setSubmitting(true);
     try {
       await replyEnquiry(selected._id, reply);
-      toast.success('Reply sent!');
       setSelected(null);
       setReply('');
       fetchEnquiries();
-    } catch { toast.error('Failed to send reply'); }
+    } catch {}
     setSubmitting(false);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this enquiry?')) return;
-    try { await deleteEnquiry(id); toast.success('Deleted'); fetchEnquiries(); } catch { toast.error('Delete failed'); }
+    try { await deleteEnquiry(id); fetchEnquiries(); } catch {}
   };
 
   const statusColors = { New: 'bg-blue-100 text-blue-700', Read: 'bg-gray-100 text-gray-700', Replied: 'bg-green-100 text-green-700' };
@@ -111,15 +108,13 @@ export function AdminContacts() {
   const handleRespond = async () => {
     try {
       await updateContact(selected._id, { status: 'Responded', response });
-      toast.success('Response saved');
       setSelected(null);
       getAllContacts().then(({ data }) => setContacts(data.contacts)).catch(() => {});
-    } catch { toast.error('Failed'); }
+    } catch {}
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete?')) return;
-    try { await deleteContact(id); toast.success('Deleted'); setContacts(prev => prev.filter(c => c._id !== id)); } catch { toast.error('Failed'); }
+    try { await deleteContact(id); setContacts(prev => prev.filter(c => c._id !== id)); } catch {}
   };
 
   return (
@@ -197,15 +192,14 @@ export function AdminNotifications() {
       if (payload.targetRole !== 'student') delete payload.targetClass;
       const { data: res } = await createNotification(payload);
       setNotifications(prev => [res.notification, ...prev]);
-      toast.success('Notification sent!');
       setShowForm(false);
       reset();
-    } catch { toast.error('Failed to create notification'); }
+    } catch {}
   };
 
   const handleDelete = async (id) => {
-    try { await deleteNotification(id); setNotifications(prev => prev.filter(n => n._id !== id)); toast.success('Deleted'); }
-    catch { toast.error('Failed'); }
+    try { await deleteNotification(id); setNotifications(prev => prev.filter(n => n._id !== id)); }
+    catch {}
   };
 
   const typeColors = { Announcement: 'bg-purple-100 text-purple-700', Event: 'bg-blue-100 text-blue-700', General: 'bg-gray-100 text-gray-700' };
@@ -275,7 +269,9 @@ export function AdminNotifications() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Target Class <span className="text-gray-400 font-normal">(optional — leave blank for all students)</span></label>
                   <select {...register('targetClass')} className="input-field">
                     <option value="">All Students</option>
-                    {classes.map(c => <option key={c._id} value={c.title}>{c.title}</option>)}
+                    {['Bharatanatyam', 'Classical Dance', 'Western Dance', 'Hip Hop', 'Contemporary', 'Folk Dance'].map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
                   </select>
                 </div>
               )}
@@ -311,14 +307,12 @@ export function AdminFAQs() {
     try {
       if (editItem) { const { data: res } = await updateFAQ(editItem._id, data); setFaqs(prev => prev.map(f => f._id === editItem._id ? res.faq : f)); }
       else { const { data: res } = await createFAQ(data); setFaqs(prev => [...prev, res.faq]); }
-      toast.success(editItem ? 'FAQ updated' : 'FAQ created');
       setShowForm(false); reset();
-    } catch { toast.error('Failed'); }
+    } catch {}
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete FAQ?')) return;
-    try { await deleteFAQ(id); setFaqs(prev => prev.filter(f => f._id !== id)); toast.success('Deleted'); } catch { toast.error('Failed'); }
+    try { await deleteFAQ(id); setFaqs(prev => prev.filter(f => f._id !== id)); } catch {}
   };
 
   return (
@@ -388,8 +382,7 @@ export function AdminSettings() {
   const onSubmit = async (data) => {
     try {
       await updateSettings(data);
-      toast.success('Settings updated!');
-    } catch { toast.error('Update failed'); }
+    } catch {}
   };
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-2 border-gray-200 border-t-primary-600 rounded-full animate-spin" /></div>;

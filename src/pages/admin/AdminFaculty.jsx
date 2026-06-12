@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload } from 'react-icons/fi';
 import { getFaculty, createFaculty, updateFaculty, deleteFaculty } from '../../services/apiServices';
 import { dummyFaculty } from '../../data/dummyData';
@@ -68,26 +67,23 @@ export default function AdminFaculty() {
       if (editItem) await updateFaculty(editItem._id, formData);
       else await createFaculty(formData);
 
-      toast.success(`Faculty member ${editItem ? 'updated' : 'added'} successfully!`);
       setShowModal(false);
       fetchFaculty();
-    } catch (err) { toast.error(err.response?.data?.message || 'Operation failed'); }
+    } catch (err) {}
   };
 
   const isDummy = (id) => dummyFaculty.some(f => f._id === id);
 
   const handleDelete = async (id, name) => {
-    if (!window.confirm(`Delete ${name}?`)) return;
     if (isDummy(id)) {
       const updated = [...hiddenDummies, id];
       setHiddenDummies(updated);
       localStorage.setItem('hiddenDummyFaculty', JSON.stringify(updated));
       setFaculty(prev => prev.filter(f => f._id !== id));
-      toast.success('Faculty deleted');
       return;
     }
-    try { await deleteFaculty(id); toast.success('Faculty deleted'); fetchFaculty(); }
-    catch { toast.error('Delete failed'); }
+    try { await deleteFaculty(id); fetchFaculty(); }
+    catch {}
   };
 
   return (

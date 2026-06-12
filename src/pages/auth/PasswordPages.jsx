@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { FiMail, FiLock, FiCheck } from 'react-icons/fi';
 import { forgotPassword, resetPassword } from '../../services/apiServices';
 
@@ -14,7 +13,7 @@ export function ForgotPasswordPage() {
       await forgotPassword(email);
       setSent(true);
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to send reset email');
+      // error handled silently
     }
   };
 
@@ -73,10 +72,9 @@ export function ResetPasswordPage() {
   const onSubmit = async ({ password }) => {
     try {
       await resetPassword(token, password);
-      toast.success('Password reset successfully!');
       navigate('/login');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Reset failed. Link may have expired.');
+      // error handled silently
     }
   };
 

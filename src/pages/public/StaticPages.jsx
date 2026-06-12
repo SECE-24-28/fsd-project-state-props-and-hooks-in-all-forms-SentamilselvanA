@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { getFAQs, submitEnquiry } from '../../services/apiServices';
@@ -130,9 +129,7 @@ export function EnquiryPage() {
       await submitEnquiry(data);
       setSubmitted(true);
       reset();
-    } catch {
-      toast.error('Failed to submit. Try again.');
-    }
+    } catch {}
   };
 
   return (

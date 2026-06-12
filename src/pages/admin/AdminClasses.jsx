@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload } from 'react-icons/fi';
 import { getClasses, createClass, updateClass, deleteClass, getFaculty } from '../../services/apiServices';
 import { dummyClasses, dummyFaculty } from '../../data/dummyData';
@@ -30,8 +29,13 @@ export default function AdminClasses() {
     setLoading(true);
     try {
       const { data } = await getClasses({ limit: 50 });
-      setClasses(data.classes?.length ? data.classes : dummyClasses);
-    } catch {}
+      const apiClasses = data.classes || [];
+      const apiIds = new Set(apiClasses.map(c => c._id));
+      const merged = [...dummyClasses.filter(c => !apiIds.has(c._id)), ...apiClasses];
+      setClasses(merged);
+    } catch {
+      setClasses(dummyClasses);
+    }
     setLoading(false);
   };
 
@@ -76,21 +80,16 @@ export default function AdminClasses() {
         await createClass(formData);
       }
 
-      toast.success(`Class ${editClass ? 'updated' : 'created'} successfully!`);
       setShowModal(false);
       fetchData();
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Operation failed');
-    }
+    } catch (err) {}
   };
 
   const handleDelete = async (id, title) => {
-    if (!window.confirm(`Delete class "${title}"?`)) return;
     try {
       await deleteClass(id);
-      toast.success('Class deleted');
       fetchData();
-    } catch { toast.error('Delete failed'); }
+    } catch {}
   };
 
   const categories = ['Bharatanatyam', 'Classical', 'Western', 'Hip Hop', 'Contemporary', 'Folk'];

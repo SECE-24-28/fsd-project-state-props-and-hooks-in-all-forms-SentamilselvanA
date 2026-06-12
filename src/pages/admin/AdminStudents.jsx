@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { FiSearch, FiTrash2, FiUser } from 'react-icons/fi';
-import { toast } from 'react-toastify';
 import { getAllUsers, updateUser, deleteUser } from '../../services/apiServices';
 import { TableSkeleton } from '../../components/common/LoadingSpinner';
 
@@ -26,20 +25,17 @@ export default function AdminStudents() {
   const handleSearch = (e) => { e.preventDefault(); setPage(1); fetchUsers(); };
 
   const handleDelete = async (id, name) => {
-    if (!window.confirm(`Delete user ${name}?`)) return;
     try {
       await deleteUser(id);
-      toast.success('User deleted');
       fetchUsers();
-    } catch { toast.error('Failed to delete user'); }
+    } catch {}
   };
 
   const handleToggleActive = async (user) => {
     try {
       await updateUser(user._id, { isActive: !user.isActive });
-      toast.success(`User ${user.isActive ? 'deactivated' : 'activated'}`);
       fetchUsers();
-    } catch { toast.error('Update failed'); }
+    } catch {}
   };
 
   return (

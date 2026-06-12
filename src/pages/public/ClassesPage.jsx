@@ -34,14 +34,12 @@ export default function ClassesPage() {
       if (category && category !== 'All') params.category = category;
       if (search) params.search = search;
       const { data } = await getClasses(params);
-      if (data.classes?.length) {
-        setClasses(data.classes);
-        setTotal(data.total || data.classes.length);
-      } else {
-        const filtered = applyLocalFilters(dummyClasses);
-        setClasses(filtered);
-        setTotal(filtered.length);
-      }
+      const apiClasses = data.classes || [];
+      const apiIds = new Set(apiClasses.map(c => c._id));
+      const merged = [...dummyClasses.filter(c => !apiIds.has(c._id)), ...apiClasses];
+      const filtered = applyLocalFilters(merged);
+      setClasses(filtered);
+      setTotal(filtered.length);
     } catch {
       const filtered = applyLocalFilters(dummyClasses);
       setClasses(filtered);

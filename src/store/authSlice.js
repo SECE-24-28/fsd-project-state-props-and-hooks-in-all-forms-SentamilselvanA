@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../services/apiServices';
-import { toast } from 'react-toastify';
 
 const parseStoredUser = () => {
   try {
@@ -78,12 +77,11 @@ const authSlice = createSlice({
           localStorage.setItem('token', action.payload.token);
           localStorage.setItem('user', JSON.stringify(action.payload.user));
         } catch {}
-        toast.success(`Welcome back, ${action.payload.user.name}!`);
+
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error(action.payload);
       })
       .addCase(registerUser.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -91,17 +89,16 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         try { localStorage.setItem('user', JSON.stringify(action.payload.user)); } catch {}
-        toast.success('Account created successfully!');
+
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error(action.payload);
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.token = null;
-        toast.info('Logged out successfully');
+
       })
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.user = action.payload;

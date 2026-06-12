@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { store } from './store/store';
 import { ThemeProvider } from './context/ThemeContext';
@@ -51,7 +49,6 @@ function App() {
     <Provider store={store}>
       <ThemeProvider>
         <BrowserRouter>
-          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover theme="colored" />
           <Routes>
             {/* Public Routes */}
             <Route element={<PublicLayout />}>

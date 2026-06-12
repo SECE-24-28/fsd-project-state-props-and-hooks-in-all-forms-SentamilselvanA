@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { FiBook, FiUsers, FiClock, FiDollarSign, FiBell, FiUser, FiMail, FiPhone, FiPlus, FiX, FiSend } from 'react-icons/fi';
 import { getClasses, getNotifications, markNotificationRead, updateProfile, createNotification } from '../../services/apiServices';
 import { dummyClasses, dummyFaculty } from '../../data/dummyData';
@@ -155,17 +154,16 @@ export function FacultyNotifications() {
     try {
       const payload = { ...data, targetRole: 'student' };
       await createNotification(payload);
-      toast.success('Notification sent to students!');
       setShowForm(false);
       reset();
-    } catch { toast.error('Failed to send notification'); }
+    } catch {}
   };
 
   const handleRead = async (id) => {
     try {
       await markNotificationRead(id);
       setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
-    } catch { toast.error('Failed to mark as read'); }
+    } catch {}
   };
 
   const typeColors = {
@@ -244,7 +242,7 @@ export function FacultyNotifications() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Target Class *</label>
                   <select {...register('targetClass', { required: true })} className="input-field">
                     <option value="">Select a class</option>
-                    {myClasses.map(c => <option key={c._id} value={c.title}>{c.title}</option>)}
+                    {myClasses.map(c => <option key={c._id} value={c.category}>{c.title} ({c.category})</option>)}
                   </select>
                 </div>
               </div>
@@ -275,8 +273,7 @@ export function FacultyProfile() {
   const onSubmit = async (data) => {
     try {
       await updateProfile(data);
-      toast.success('Profile updated!');
-    } catch { toast.error('Update failed'); }
+    } catch {}
   };
 
   return (

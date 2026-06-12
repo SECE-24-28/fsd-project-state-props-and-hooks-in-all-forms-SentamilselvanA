@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { FiSearch, FiEye, FiCheck, FiX } from 'react-icons/fi';
 import { getAllApplications, updateApplicationStatus, deleteApplication } from '../../services/apiServices';
 import { TableSkeleton } from '../../components/common/LoadingSpinner';
@@ -20,6 +19,9 @@ export default function AdminApplications() {
   const [selected, setSelected] = useState(null);
   const [adminNote, setAdminNote] = useState('');
 
+  const [updating, setUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState('');
+
   useEffect(() => { fetchApps(); }, [page, statusFilter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchApps = async () => {
@@ -33,18 +35,26 @@ export default function AdminApplications() {
   };
 
   const handleStatusUpdate = async (id, status) => {
+    setUpdating(true);
+    setUpdateError('');
     try {
       await updateApplicationStatus(id, { status, adminNote });
-      toast.success(`Application ${status.toLowerCase()}`);
+      // Optimistic update — patch status in local state immediately
+      setApplications(prev => prev.map(app => app._id === id ? { ...app, status, adminNote } : app));
       setSelected(null);
-      fetchApps();
-    } catch { toast.error('Update failed'); }
+      setAdminNote('');
+    } catch (err) {
+      setUpdateError(err.response?.data?.message || 'Update failed. Please try again.');
+    }
+    setUpdating(false);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this application?')) return;
-    try { await deleteApplication(id); toast.success('Deleted'); fetchApps(); }
-    catch { toast.error('Delete failed'); }
+    try {
+      await deleteApplication(id);
+      setApplications(prev => prev.filter(app => app._id !== id));
+      setTotal(prev => prev - 1);
+    } catch {}
   };
 
   return (
@@ -96,7 +106,7 @@ export default function AdminApplications() {
                       <td className="px-5 py-4 text-sm text-gray-600 dark:text-gray-400">{new Date(app.createdAt).toLocaleDateString()}</td>
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => { setSelected(app); setAdminNote(app.adminNote || ''); }}
+                          <button onClick={() => { setSelected(app); setAdminNote(app.adminNote || ''); setUpdateError(''); }}
                             className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors" title="View & Update">
                             <FiEye size={15} />
                           </button>
@@ -130,8 +140,11 @@ export default function AdminApplications() {
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg">
             <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="font-display font-bold text-xl text-gray-900 dark:text-white">Application Details</h2>
-              <button onClick={() => setSelected(null)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><FiX size={20} /></button>
+              <div className="flex items-center gap-3">
+                <h2 className="font-display font-bold text-xl text-gray-900 dark:text-white">Application Details</h2>
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[selected.status]}`}>{selected.status}</span>
+              </div>
+              <button onClick={() => { setSelected(null); setAdminNote(''); setUpdateError(''); }} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><FiX size={20} /></button>
             </div>
             <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4 text-sm">
@@ -154,15 +167,21 @@ export default function AdminApplications() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Admin Note</label>
                 <textarea value={adminNote} onChange={(e) => setAdminNote(e.target.value)} rows={2} className="input-field resize-none" placeholder="Optional note to student..." />
               </div>
+              {updateError && (
+                <p className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">{updateError}</p>
+              )}
               <div className="flex gap-3">
-                <button onClick={() => handleStatusUpdate(selected._id, 'Approved')} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
-                  <FiCheck size={15} /> Approve
+                <button onClick={() => handleStatusUpdate(selected._id, 'Approved')} disabled={updating}
+                  className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
+                  {updating ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiCheck size={15} /> Approve</>}
                 </button>
-                <button onClick={() => handleStatusUpdate(selected._id, 'Under Review')} className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
-                  Under Review
+                <button onClick={() => handleStatusUpdate(selected._id, 'Under Review')} disabled={updating}
+                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
+                  {updating ? '...' : 'Under Review'}
                 </button>
-                <button onClick={() => handleStatusUpdate(selected._id, 'Rejected')} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
-                  <FiX size={15} /> Reject
+                <button onClick={() => handleStatusUpdate(selected._id, 'Rejected')} disabled={updating}
+                  className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
+                  {updating ? '...' : <><FiX size={15} /> Reject</>}
                 </button>
               </div>
             </div>

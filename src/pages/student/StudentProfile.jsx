@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { FiUser, FiLock, FiSave } from 'react-icons/fi';
 import { updateProfile, updatePassword as updatePwd } from '../../services/apiServices';
 import { updateUserLocal } from '../../store/authSlice';
@@ -22,16 +21,14 @@ export default function StudentProfile() {
     try {
       const { data: res } = await updateProfile(data);
       dispatch(updateUserLocal(res.user));
-      toast.success('Profile updated!');
-    } catch { toast.error('Update failed'); }
+    } catch {}
   };
 
   const onPasswordChange = async (data) => {
     try {
       await updatePwd({ currentPassword: data.currentPassword, newPassword: data.newPassword });
-      toast.success('Password changed successfully!');
       resetPwd();
-    } catch (err) { toast.error(err.response?.data?.message || 'Failed to change password'); }
+    } catch (err) {}
   };
 
   return (

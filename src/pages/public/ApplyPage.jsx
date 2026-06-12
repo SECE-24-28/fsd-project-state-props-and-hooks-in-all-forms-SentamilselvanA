@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { FiUpload, FiCheckCircle } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { submitApplication } from '../../services/apiServices';
@@ -23,7 +22,6 @@ export default function ApplyPage() {
 
   const onSubmit = async (data) => {
     if (!user) {
-      toast.info('Please login to submit an application.');
       navigate('/login');
       return;
     }
@@ -35,9 +33,7 @@ export default function ApplyPage() {
       });
       await submitApplication(formData);
       setSubmitted(true);
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Submission failed. Please try again.');
-    }
+    } catch (err) {}
   };
 
   if (submitted) {
